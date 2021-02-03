@@ -105,7 +105,7 @@ sender_username='$username' AND reciever_username='$user_name'");
                         </div>
                     </div>
                     <div class="row inputtext">
-                        <div class="col-md-12 right-chat-textbox"><input autocomplete="off" id="msg_content" name="msg_content" placeholder="Write your message.."> <button class="text-light btn-dark" name="submit" id="but" value="<?php echo $username; ?>">Send</button></div>
+                        <div class="col-md-12 right-chat-textbox"><input autocomplete="off" id="msg_content" name="msg_content" required pattern="[A-Za-z0-9]+" placeholder="Write your message.."> <button class="text-light btn-dark" name="submit" id="but" value="<?php echo $username; ?>">Send</button></div>
                     </div>
                 </div>
             </div>
@@ -114,13 +114,19 @@ sender_username='$username' AND reciever_username='$user_name'");
         <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="></script>
         <script>
             $(document).ready(function() {
-                alert('Its still demo version ( DONT USE COMMAS-","!! ).');
+
                 $("#msg_content").keypress(function(t) {
                     if (13 === t.keyCode) {
                         var a = $("#msg_content").val();
                         a = a.replace(/\s/g, "`");
-                        var o = [$("#but").val(), a];
-                        $("#scrolling_to_bottom").load("chat.php?array=" + o), $("#msg_content").val("")
+                        if (a.match(/^[A-Za-z0-9`.?@()!%^*-_]+$/)) {
+
+                            var o = [$("#but").val(), a];
+                            $("#scrolling_to_bottom").load("chat.php?array=" + o);
+                        } else {
+                            alert('Letter and numbers only')
+                        }
+                        $("#msg_content").val("");
                     }
                 }), $("#but").click(function() {
                     var t = $("#msg_content").val();

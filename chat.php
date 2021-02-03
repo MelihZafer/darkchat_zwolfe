@@ -20,8 +20,8 @@ $user_name = $row['username'];
 
 $array = $_GET['array'];
 $explode =  explode(',', $array);
-$msg = str_replace('`', " ", $explode[1]);
-
+$msg1 = str_replace('`', " ", $explode[1]);
+$msg = htmlspecialchars($msg1);
 
 
 $get_username = $explode[0];
@@ -42,6 +42,7 @@ if (strlen($msg) < 52 && $msg != '') {
 } else if (strlen($msg) > 52) {
     echo "<script> alert('The message has not to be too long. Max: 50 ch!!!')</script>";
 }
+
 
 $update_msg = mysqli_query($con, "UPDATE users_chat SET msg_status='read' WHERE 
 sender_username='$username' AND reciever_username='$user_name'");
